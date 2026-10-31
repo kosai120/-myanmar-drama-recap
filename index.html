@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drama AI Studio</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#10101c;color:white;
+ font-family:Arial,sans-serif;padding:20px;
+}
+header{font-size:24px;font-weight:bold;color:#b99aff}
+.container{max-width:700px;margin:35px auto}
+h1{font-size:30px;line-height:1.4}
+p{color:#b9b9ca;line-height:1.7}
+.panel{
+ background:#1b1b2b;border:1px solid #39394e;
+ border-radius:16px;padding:20px;margin-top:22px;
+}
+label{display:block;margin:16px 0 9px}
+textarea,select,input{
+ width:100%;padding:14px;border-radius:10px;
+ background:#10101c;color:white;
+ border:1px solid #45455e;font-size:15px;
+}
+textarea{height:150px;resize:vertical}
+button{
+ width:100%;padding:15px;border:0;border-radius:10px;
+ background:linear-gradient(90deg,#8055ef,#bd69dc);
+ color:white;font-size:17px;font-weight:bold;
+ margin-top:18px;
+}
+#result{white-space:pre-wrap;line-height:1.8}
+footer{text-align:center;color:#777;margin-top:35px}
+</style>
+</head>
+<body>
+<header>🎬 DRAMA AI STUDIO</header>
+<div class="container">
+<h1>Chinese Drama Recap AI</h1>
+<p>တရုတ်ဇာတ်လမ်းတွေကို မြန်မာလို စိတ်ဝင်စားဖွယ် YouTube Recap ဇာတ်ညွှန်းအဖြစ် ပြောင်းလဲလိုက်ပါ။</p>
+
+<div class="panel">
+<h2>📁 ဇာတ်လမ်းထည့်ရန်</h2>
+<label>Subtitle ဖိုင် (SRT / TXT / VTT)</label>
+<input type="file" id="file" accept=".srt,.txt,.vtt">
+<label>သို့မဟုတ် ဇာတ်လမ်းစာသားထည့်ပါ</label>
+<textarea id="story" placeholder="ဒီနေရာမှာ Chinese Drama Subtitle သို့မဟုတ် ဇာတ်လမ်းစာသားကို ထည့်ပါ..."></textarea>
+<label>Recap ကြာချိန်</label>
+<select id="duration">
+<option>5 မိနစ်</option>
+<option selected>10 မိနစ်</option>
+<option>15 မိနစ်</option>
+<option>20 မိနစ်</option>
+</select>
+<button onclick="generate()">✨ Recap Script ပြုလုပ်ရန်</button>
+<div id="result"></div>
+</div>
+<footer>© 2026 Drama AI Studio</footer>
+</div>
+<script>
+document.getElementById('file').addEventListener('change',async e=>{
+ const f=e.target.files[0];
+ if(f) document.getElementById('story').value=await f.text();
+});
+function generate(){
+ const story=document.getElementById('story').value.trim();
+ const result=document.getElementById('result');
+ if(!story){
+  result.textContent='ဇာတ်လမ်းစာသား သို့မဟုတ် Subtitle ဖိုင် အရင်ထည့်ပေးပါ။';
+  return;
+ }
+ result.textContent='စာသားလက်ခံရရှိပါပြီ။ AI Recap စနစ်ကို ချိတ်ဆက်ပြီးမှ မြန်မာလို ဇာတ်ညွှန်း အပြည့်အစုံ ထုတ်ပေးနိုင်ပါမယ်။';
+}
+</script>
+</body>
+</html>
