@@ -1,78 +1,209 @@
+
 <!DOCTYPE html>
 <html lang="my">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Drama AI Studio</title>
+<title>Myanmar Drama AI</title>
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;background:#10101c;color:white;
- font-family:Arial,sans-serif;padding:20px;
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 18px;
+  background: #10131c;
+  color: white;
+  font-family: Arial, sans-serif;
 }
-header{font-size:24px;font-weight:bold;color:#b99aff}
-.container{max-width:700px;margin:35px auto}
-h1{font-size:30px;line-height:1.4}
-p{color:#b9b9ca;line-height:1.7}
-.panel{
- background:#1b1b2b;border:1px solid #39394e;
- border-radius:16px;padding:20px;margin-top:22px;
+.container {
+  max-width: 850px;
+  margin: auto;
 }
-label{display:block;margin:16px 0 9px}
-textarea,select,input{
- width:100%;padding:14px;border-radius:10px;
- background:#10101c;color:white;
- border:1px solid #45455e;font-size:15px;
+h1 { color: #8c9eff; text-align: center; }
+.panel {
+  background: #1c2230;
+  padding: 16px;
+  border-radius: 14px;
+  margin: 15px 0;
 }
-textarea{height:150px;resize:vertical}
-button{
- width:100%;padding:15px;border:0;border-radius:10px;
- background:linear-gradient(90deg,#8055ef,#bd69dc);
- color:white;font-size:17px;font-weight:bold;
- margin-top:18px;
+label {
+  display: block;
+  margin: 12px 0 7px;
 }
-#result{white-space:pre-wrap;line-height:1.8}
-footer{text-align:center;color:#777;margin-top:35px}
+input[type=file] {
+  width: 100%;
+  padding: 12px;
+  background: #30394b;
+  color: white;
+  border-radius: 8px;
+}
+video {
+  width: 100%;
+  max-height: 65vh;
+  background: black;
+  border-radius: 10px;
+}
+button {
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 8px;
+  background: #6578ed;
+  color: white;
+  font-size: 15px;
+  margin: 8px 4px 0 0;
+}
+button:active { opacity: .7; }
+#status {
+  color: #9fdfb0;
+  overflow-wrap: anywhere;
+}
+.note {
+  color: #c0c7d8;
+  font-size: 13px;
+  line-height: 1.6;
+}
 </style>
 </head>
 <body>
-<header>🎬 DRAMA AI STUDIO</header>
 <div class="container">
-<h1>Chinese Drama Recap AI</h1>
-<p>တရုတ်ဇာတ်လမ်းတွေကို မြန်မာလို စိတ်ဝင်စားဖွယ် YouTube Recap ဇာတ်ညွှန်းအဖြစ် ပြောင်းလဲလိုက်ပါ။</p>
+
+<h1>🎬 Myanmar Drama AI</h1>
+<p style="text-align:center">
+တရုတ်ဒရာမာ မြန်မာစာတန်းထိုး Video Player
+</p>
 
 <div class="panel">
-<h2>📁 ဇာတ်လမ်းထည့်ရန်</h2>
-<label>Subtitle ဖိုင် (SRT / TXT / VTT)</label>
-<input type="file" id="file" accept=".srt,.txt,.vtt">
-<label>သို့မဟုတ် ဇာတ်လမ်းစာသားထည့်ပါ</label>
-<textarea id="story" placeholder="ဒီနေရာမှာ Chinese Drama Subtitle သို့မဟုတ် ဇာတ်လမ်းစာသားကို ထည့်ပါ..."></textarea>
-<label>Recap ကြာချိန်</label>
-<select id="duration">
-<option>5 မိနစ်</option>
-<option selected>10 မိနစ်</option>
-<option>15 မိနစ်</option>
-<option>20 မိနစ်</option>
-</select>
-<button onclick="generate()">✨ Recap Script ပြုလုပ်ရန်</button>
-<div id="result"></div>
+  <h3>📁 Video တင်ရန်</h3>
+  <label>ဖုန်း Gallery ထဲက MP4 ရွေးပါ</label>
+  <input id="videoFile" type="file" accept="video/*">
+  <p id="videoName" class="note">Video မရွေးရသေးပါ</p>
 </div>
-<footer>© 2026 Drama AI Studio</footer>
+
+<div class="panel">
+  <h3>▶ Video Player</h3>
+  <video id="player" controls playsinline></video>
+  <button id="subtitleToggle">စာတန်းထိုး ဖွင့် / ပိတ်</button>
 </div>
+
+<div class="panel">
+  <h3>💬 မြန်မာစာတန်းထိုး တင်ရန်</h3>
+  <label>SRT သို့မဟုတ် VTT ဖိုင်ရွေးပါ</label>
+  <input id="subtitleFile" type="file"
+    accept=".srt,.vtt,text/vtt">
+  <p id="subtitleName" class="note">
+    Subtitle မတင်ရသေးပါ
+  </p>
+  <p class="note">
+    SRT ဖိုင်ထဲက အချိန်အတိုင်း Video မှာ စာတန်းထိုး ပြပေးပါမယ်။
+  </p>
+</div>
+
+<div class="panel">
+  <h3>📌 လုပ်ဆောင်မှု အခြေအနေ</h3>
+  <p id="status">Video နှင့် Subtitle ကို ရွေးနိုင်ပါပြီ။</p>
+</div>
+
+</div>
+
 <script>
-document.getElementById('file').addEventListener('change',async e=>{
- const f=e.target.files[0];
- if(f) document.getElementById('story').value=await f.text();
+const videoInput = document.getElementById("videoFile");
+const subtitleInput = document.getElementById("subtitleFile");
+const player = document.getElementById("player");
+const statusText = document.getElementById("status");
+
+let videoURL = null;
+let subtitleURL = null;
+let trackElement = null;
+
+videoInput.addEventListener("change", () => {
+  const file = videoInput.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("video/")) {
+    statusText.textContent = "Video ဖိုင်ကိုသာ ရွေးပါ။";
+    return;
+  }
+
+  if (videoURL) URL.revokeObjectURL(videoURL);
+  videoURL = URL.createObjectURL(file);
+  player.src = videoURL;
+
+  document.getElementById("videoName").textContent =
+    file.name;
+
+  statusText.textContent = "Video တင်ပြီးပါပြီ။";
 });
-function generate(){
- const story=document.getElementById('story').value.trim();
- const result=document.getElementById('result');
- if(!story){
-  result.textContent='ဇာတ်လမ်းစာသား သို့မဟုတ် Subtitle ဖိုင် အရင်ထည့်ပေးပါ။';
-  return;
- }
- result.textContent='စာသားလက်ခံရရှိပါပြီ။ AI Recap စနစ်ကို ချိတ်ဆက်ပြီးမှ မြန်မာလို ဇာတ်ညွှန်း အပြည့်အစုံ ထုတ်ပေးနိုင်ပါမယ်။';
+
+function srtToVtt(text) {
+  return "WEBVTT\n\n" +
+    text.replace(/^\uFEFF/, "")
+      .replace(/\r/g, "")
+      .replace(
+        /(\d{2}:\d{2}:\d{2}),(\d{3})/g,
+        "$1.$2"
+      );
 }
+
+subtitleInput.addEventListener("change", async () => {
+  const file = subtitleInput.files[0];
+  if (!file) return;
+
+  const text = await file.text();
+  let vtt;
+
+  if (file.name.toLowerCase().endsWith(".vtt")) {
+    vtt = text.replace(/^\uFEFF/, "");
+    if (!vtt.trimStart().startsWith("WEBVTT")) {
+      statusText.textContent = "VTT ဖိုင်ပုံစံ မမှန်ပါ။";
+      return;
+    }
+  } else {
+    vtt = srtToVtt(text);
+  }
+
+  if (subtitleURL) URL.revokeObjectURL(subtitleURL);
+
+  subtitleURL = URL.createObjectURL(
+    new Blob([vtt], { type: "text/vtt;charset=utf-8" })
+  );
+
+  if (trackElement) {
+    trackElement.remove();
+  }
+
+  trackElement = document.createElement("track");
+  trackElement.kind = "subtitles";
+  trackElement.label = "မြန်မာစာ";
+  trackElement.srclang = "my";
+  trackElement.src = subtitleURL;
+  trackElement.default = true;
+
+  player.appendChild(trackElement);
+
+  trackElement.addEventListener("load", () => {
+    for (let i = 0; i < player.textTracks.length; i++) {
+      player.textTracks[i].mode = "showing";
+    }
+  });
+
+  document.getElementById("subtitleName").textContent =
+    file.name;
+
+  statusText.textContent =
+    "စာတန်းထိုး ဖိုင်တင်ပြီးပါပြီ။ Video ဖွင့်ကြည့်ပါ။";
+});
+
+document.getElementById("subtitleToggle")
+  .addEventListener("click", () => {
+    if (!player.textTracks.length) {
+      statusText.textContent =
+        "အရင်ဆုံး Subtitle ဖိုင်တင်ပေးပါ။";
+      return;
+    }
+
+    const track = player.textTracks[0];
+    track.mode =
+      track.mode === "showing" ? "hidden" : "showing";
+  });
 </script>
 </body>
 </html>
