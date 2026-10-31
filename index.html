@@ -3,207 +3,118 @@
 <html lang="my">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Myanmar Drama AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Myanmar Drama AI Studio</title>
 <style>
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  padding: 18px;
-  background: #10131c;
-  color: white;
-  font-family: Arial, sans-serif;
-}
-.container {
-  max-width: 850px;
-  margin: auto;
-}
-h1 { color: #8c9eff; text-align: center; }
-.panel {
-  background: #1c2230;
-  padding: 16px;
-  border-radius: 14px;
-  margin: 15px 0;
-}
-label {
-  display: block;
-  margin: 12px 0 7px;
-}
-input[type=file] {
-  width: 100%;
-  padding: 12px;
-  background: #30394b;
-  color: white;
-  border-radius: 8px;
-}
-video {
-  width: 100%;
-  max-height: 65vh;
-  background: black;
-  border-radius: 10px;
-}
-button {
-  padding: 12px 18px;
-  border: 0;
-  border-radius: 8px;
-  background: #6578ed;
-  color: white;
-  font-size: 15px;
-  margin: 8px 4px 0 0;
-}
-button:active { opacity: .7; }
-#status {
-  color: #9fdfb0;
-  overflow-wrap: anywhere;
-}
-.note {
-  color: #c0c7d8;
-  font-size: 13px;
-  line-height: 1.6;
-}
+*{box-sizing:border-box}
+body{margin:0;padding:20px;background:#101827;color:white;font-family:Arial,sans-serif}
+main{max-width:650px;margin:auto}
+h1{color:#70e1ff;text-align:center}
+p{color:#cbd5e1;line-height:1.6}
+.panel{background:#1e293b;padding:18px;border-radius:14px;margin:16px 0}
+.voice{display:block;width:100%;padding:15px;margin:10px 0;border:2px solid #475569;border-radius:12px;background:#263449;color:white;text-align:left;font-size:16px}
+.voice.selected{border-color:#38bdf8;background:#164e63}
+button{cursor:pointer}
+.action{padding:13px 18px;border:0;border-radius:10px;background:#0ea5e9;color:white;font-size:16px;margin:5px}
+input{width:100%;margin:12px 0}
+video{width:100%;border-radius:12px;background:#000}
+.small{font-size:13px;color:#94a3b8}
 </style>
 </head>
 <body>
-<div class="container">
+<main>
+<h1>🎬 Myanmar Drama AI Studio</h1>
+<p style="text-align:center">Chinese Drama ကို မြန်မာဘာသာဖြင့် ကြည့်ရှုရန်</p>
 
-<h1>🎬 Myanmar Drama AI</h1>
-<p style="text-align:center">
-တရုတ်ဒရာမာ မြန်မာစာတန်းထိုး Video Player
-</p>
+<section class="panel">
+<h3>📁 ဗီဒီယိုရွေးချယ်ရန်</h3>
+<input type="file" id="videoFile" accept="video/*">
+<video id="player" controls playsinline></video>
+</section>
 
-<div class="panel">
-  <h3>📁 Video တင်ရန်</h3>
-  <label>ဖုန်း Gallery ထဲက MP4 ရွေးပါ</label>
-  <input id="videoFile" type="file" accept="video/*">
-  <p id="videoName" class="note">Video မရွေးရသေးပါ</p>
-</div>
+<section class="panel">
+<h3>🎙️ မြန်မာအသံ ၄ မျိုး ရွေးချယ်ရန်</h3>
 
-<div class="panel">
-  <h3>▶ Video Player</h3>
-  <video id="player" controls playsinline></video>
-  <button id="subtitleToggle">စာတန်းထိုး ဖွင့် / ပိတ်</button>
-</div>
+<button class="voice selected" data-pitch="0.7" data-rate="0.9">
+👨 အသံ ၁ — အမျိုးသား (နက်ရှိုင်း၊ ဩဇာရှိ)
+</button>
+<button class="voice" data-pitch="0.9" data-rate="0.95">
+👨 အသံ ၂ — အမျိုးသား (နူးညံ့၊ အေးဆေး)
+</button>
+<button class="voice" data-pitch="1.2" data-rate="0.9">
+👩 အသံ ၃ — အမျိုးသမီး (ချိုသာ၊ နူးညံ့)
+</button>
+<button class="voice" data-pitch="1.5" data-rate="1.1">
+👩 အသံ ၄ — အမျိုးသမီး (တက်ကြွ၊ သွက်လက်)
+</button>
 
-<div class="panel">
-  <h3>💬 မြန်မာစာတန်းထိုး တင်ရန်</h3>
-  <label>SRT သို့မဟုတ် VTT ဖိုင်ရွေးပါ</label>
-  <input id="subtitleFile" type="file"
-    accept=".srt,.vtt,text/vtt">
-  <p id="subtitleName" class="note">
-    Subtitle မတင်ရသေးပါ
-  </p>
-  <p class="note">
-    SRT ဖိုင်ထဲက အချိန်အတိုင်း Video မှာ စာတန်းထိုး ပြပေးပါမယ်။
-  </p>
-</div>
+<p id="chosen">ရွေးချယ်ထားသောအသံ — အသံ ၁</p>
+<button class="action" id="sample">🔊 နမူနာအသံ နားထောင်ရန်</button>
+</section>
 
-<div class="panel">
-  <h3>📌 လုပ်ဆောင်မှု အခြေအနေ</h3>
-  <p id="status">Video နှင့် Subtitle ကို ရွေးနိုင်ပါပြီ။</p>
-</div>
+<section class="panel">
+<h3>📝 မြန်မာစာတန်းထိုး</h3>
+<input type="file" id="subtitleFile" accept=".srt,.vtt">
+<p class="small">SRT သို့မဟုတ် VTT စာတန်းထိုးဖိုင်ကို ထည့်နိုင်ပါတယ်။</p>
+<button class="action" id="toggle">စာတန်းထိုး ဖွင့် / ပိတ်</button>
+</section>
 
-</div>
+<p class="small">မှတ်ချက် — လက်ရှိတွင် ဗီဒီယိုဖွင့်ခြင်း၊ စာတန်းထိုးဖိုင်ထည့်ခြင်းနှင့် Browser အသံနမူနာစမ်းခြင်းတို့သာ အလုပ်လုပ်ပါသေးသည်။ AI ဘာသာပြန်ခြင်း၊ အသံထုတ်ခြင်းနှင့် ဗီဒီယိုအပြီးသတ် Export လုပ်ခြင်းတို့ မချိတ်ဆက်ရသေးပါ။</p>
+</main>
 
 <script>
-const videoInput = document.getElementById("videoFile");
-const subtitleInput = document.getElementById("subtitleFile");
-const player = document.getElementById("player");
-const statusText = document.getElementById("status");
+const player=document.getElementById('player');
+let selected=document.querySelector('.voice.selected');
 
-let videoURL = null;
-let subtitleURL = null;
-let trackElement = null;
-
-videoInput.addEventListener("change", () => {
-  const file = videoInput.files[0];
-  if (!file) return;
-
-  if (!file.type.startsWith("video/")) {
-    statusText.textContent = "Video ဖိုင်ကိုသာ ရွေးပါ။";
-    return;
-  }
-
-  if (videoURL) URL.revokeObjectURL(videoURL);
-  videoURL = URL.createObjectURL(file);
-  player.src = videoURL;
-
-  document.getElementById("videoName").textContent =
-    file.name;
-
-  statusText.textContent = "Video တင်ပြီးပါပြီ။";
+document.getElementById('videoFile').addEventListener('change',e=>{
+ if(e.target.files[0]) player.src=URL.createObjectURL(e.target.files[0]);
 });
 
-function srtToVtt(text) {
-  return "WEBVTT\n\n" +
-    text.replace(/^\uFEFF/, "")
-      .replace(/\r/g, "")
-      .replace(
-        /(\d{2}:\d{2}:\d{2}),(\d{3})/g,
-        "$1.$2"
-      );
-}
-
-subtitleInput.addEventListener("change", async () => {
-  const file = subtitleInput.files[0];
-  if (!file) return;
-
-  const text = await file.text();
-  let vtt;
-
-  if (file.name.toLowerCase().endsWith(".vtt")) {
-    vtt = text.replace(/^\uFEFF/, "");
-    if (!vtt.trimStart().startsWith("WEBVTT")) {
-      statusText.textContent = "VTT ဖိုင်ပုံစံ မမှန်ပါ။";
-      return;
-    }
-  } else {
-    vtt = srtToVtt(text);
-  }
-
-  if (subtitleURL) URL.revokeObjectURL(subtitleURL);
-
-  subtitleURL = URL.createObjectURL(
-    new Blob([vtt], { type: "text/vtt;charset=utf-8" })
-  );
-
-  if (trackElement) {
-    trackElement.remove();
-  }
-
-  trackElement = document.createElement("track");
-  trackElement.kind = "subtitles";
-  trackElement.label = "မြန်မာစာ";
-  trackElement.srclang = "my";
-  trackElement.src = subtitleURL;
-  trackElement.default = true;
-
-  player.appendChild(trackElement);
-
-  trackElement.addEventListener("load", () => {
-    for (let i = 0; i < player.textTracks.length; i++) {
-      player.textTracks[i].mode = "showing";
-    }
-  });
-
-  document.getElementById("subtitleName").textContent =
-    file.name;
-
-  statusText.textContent =
-    "စာတန်းထိုး ဖိုင်တင်ပြီးပါပြီ။ Video ဖွင့်ကြည့်ပါ။";
+document.querySelectorAll('.voice').forEach(btn=>{
+ btn.addEventListener('click',()=>{
+  document.querySelectorAll('.voice').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selected=btn;
+  document.getElementById('chosen').textContent='ရွေးချယ်ထားသောအသံ — '+btn.textContent.trim();
+ });
 });
 
-document.getElementById("subtitleToggle")
-  .addEventListener("click", () => {
-    if (!player.textTracks.length) {
-      statusText.textContent =
-        "အရင်ဆုံး Subtitle ဖိုင်တင်ပေးပါ။";
-      return;
-    }
+document.getElementById('sample').addEventListener('click',()=>{
+ if(!('speechSynthesis' in window)){
+  alert('ဒီ Browser မှာ အသံနမူနာ မရနိုင်ပါ။');return;
+ }
+ speechSynthesis.cancel();
+ const msg=new SpeechSynthesisUtterance('မင်္ဂလာပါ။ မြန်မာဒရာမာ AI Studio မှ ကြိုဆိုပါတယ်။');
+ msg.lang='my-MM';
+ msg.pitch=Number(selected.dataset.pitch);
+ msg.rate=Number(selected.dataset.rate);
+ speechSynthesis.speak(msg);
+});
 
-    const track = player.textTracks[0];
-    track.mode =
-      track.mode === "showing" ? "hidden" : "showing";
-  });
+let track=null;
+document.getElementById('subtitleFile').addEventListener('change',e=>{
+ if(!e.target.files[0])return;
+ const reader=new FileReader();
+ reader.onload=()=>{
+  let srt=String(reader.result).replace(/\r/g,'');
+  srt=srt.replace(/(\d{2}:\d{2}:\d{2}),(\d{3})/g,'$1.$2');
+  const blob=new Blob([srt],{type:'text/vtt'});
+  if(track)player.removeChild(track);
+  track=document.createElement('track');
+  track.kind='subtitles';
+  track.label='Myanmar';
+  track.srclang='my';
+  track.default=true;
+  track.src=URL.createObjectURL(blob);
+  player.appendChild(track);
+  track.track.mode='showing';
+ };
+ reader.readAsText(e.target.files[0]);
+});
+
+document.getElementById('toggle').addEventListener('click',()=>{
+ if(track)track.track.mode=track.track.mode==='showing'?'disabled':'showing';
+});
 </script>
 </body>
 </html>
